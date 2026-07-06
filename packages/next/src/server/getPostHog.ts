@@ -1,5 +1,8 @@
-import 'server-only'
-
+// No `import 'server-only'` here: this module is reachable from the `./pages`
+// `node` export condition (Pages Router server bundles), where server-only's
+// non-react-server build throws at import time. Client bundles are protected
+// by the exports map instead (`browser`/`default` resolve to the client
+// barrels), enforced by packaging.test.ts.
 import { isFunction } from '@posthog/core'
 import type { PostHogOptions, IPostHog } from 'posthog-node'
 import { cookies, headers } from 'next/headers.js'

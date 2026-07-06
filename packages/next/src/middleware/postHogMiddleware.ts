@@ -1,5 +1,6 @@
-import 'server-only'
-
+// No `import 'server-only'` here: this module is reachable from the `./pages`
+// `node` export condition (Pages Router server bundles), where server-only's
+// non-react-server build throws at import time. See getPostHog.ts.
 import { NextResponse } from 'next/server.js'
 import type { NextRequest } from 'next/server.js'
 import { getPostHogCookieName, readPostHogCookie, serializePostHogCookie, isOptedOut } from '../shared/cookie.js'
