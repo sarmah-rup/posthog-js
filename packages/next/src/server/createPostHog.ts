@@ -22,13 +22,13 @@ export interface CreatePostHogConfig {
      * server events still correlate with the browser session. Return
      * `null`/`undefined` to fall back to the client-provided distinct id.
      *
-     * Runs once per `getPostHog()` call, in request scope — it may call
-     * `cookies()`/`headers()` or auth helpers that do. When `getPostHog(ctx)`
-     * is called with a `GetServerSidePropsContext` (Pages Router), the
-     * resolver receives that context for Pages Router auth helpers. Wrap
-     * resolvers that do their own I/O (e.g. a database session lookup) in
-     * React's `cache()` so multiple `getPostHog()` calls in one render don't
-     * repeat it. It is not called for opted-out users. Errors are logged and
+     * Runs in request scope — it may call `cookies()`/`headers()` or auth
+     * helpers that do. In the App Router it runs at most once per request:
+     * repeated `getPostHog()` calls in one request (e.g. across a layout and
+     * its pages) share a single resolution. When `getPostHog(ctx)` is called
+     * with a `GetServerSidePropsContext` (Pages Router), it runs once per
+     * call and the resolver receives that context for Pages Router auth
+     * helpers. It is not called for opted-out users. Errors are logged and
      * treated as "no identity"; Next.js `redirect()`/`notFound()` propagate
      * normally.
      */
